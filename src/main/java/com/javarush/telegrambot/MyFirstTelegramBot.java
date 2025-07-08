@@ -8,6 +8,8 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
+import java.util.Map;
+
 public class MyFirstTelegramBot extends MultiSessionTelegramBot {
     public static final String NAME = "Reita142_bot";
     public static final String TOKEN = "1772257325:AAHNDfEewogcxWG_0U8AT0UT5AcD_M5voV4";
@@ -18,7 +20,22 @@ public class MyFirstTelegramBot extends MultiSessionTelegramBot {
 
     @Override
     public void onUpdateEventReceived(Update updateEvent) {
-        sendTextMessageAsync("Привет, будущий программист");
+        if (getMessageText().equals("/bye")) {
+            sendTextMessageAsync("Asta la vista, baby!");
+        }
+
+        if (getMessageText().equals("/start")) {
+            sendTextMessageAsync("Ваше любимое животное?",
+                    Map.of("Кот", "Cat", "Собака", "Dog"));
+        }
+
+        if (getCallbackQueryButtonKey().equals("Cat")) {
+            sendPhotoMessageAsync("step_4_pic");
+        }
+
+        if (getCallbackQueryButtonKey().equals("Dog")) {
+            sendPhotoMessageAsync("step_6_pic");
+        }
     }
 
     public static void main(String[] args) throws TelegramApiException {
