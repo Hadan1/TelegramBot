@@ -10,6 +10,8 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import java.util.Map;
 
+import static com.javarush.telegrambot.TelegramBotContent.*;
+
 public class MyFirstTelegramBot extends MultiSessionTelegramBot {
     public static final String NAME = "Reita142_bot";
     public static final String TOKEN = "1772257325:AAHNDfEewogcxWG_0U8AT0UT5AcD_M5voV4";
@@ -20,21 +22,31 @@ public class MyFirstTelegramBot extends MultiSessionTelegramBot {
 
     @Override
     public void onUpdateEventReceived(Update updateEvent) {
-        if (getMessageText().equals("/bye")) {
-            sendTextMessageAsync("Asta la vista, baby!");
-        }
-
+        //отобразим сообщение о начале игры
         if (getMessageText().equals("/start")) {
-            sendTextMessageAsync("Ваше любимое животное?",
-                    Map.of("Кот", "Cat", "Собака", "Dog"));
+            setUserGlory(0);
+            sendTextMessageAsync(STEP_1_TEXT, Map.of("Взлом холодильника", "step_1_btn"));
         }
 
-        if (getCallbackQueryButtonKey().equals("Cat")) {
-            sendPhotoMessageAsync("step_4_pic");
+        if (getCallbackQueryButtonKey().equals("step_1_btn")) {
+            addUserGlory(20);
+            sendTextMessageAsync(STEP_2_TEXT,
+                    Map.of( "Взять сосиску! + 20 славы", "step_2_btn",
+                            "взять рыбку! + 20 славы", "step_2_btn",
+                            "Скинуть банку с огурцами! + 20 славы", "step_2_btn"));
         }
 
-        if (getCallbackQueryButtonKey().equals("Dog")) {
-            sendPhotoMessageAsync("step_6_pic");
+        if (getCallbackQueryButtonKey().equals("step_2_btn")) {
+            addUserGlory(20);
+            sendTextMessageAsync(STEP_3_TEXT, Map.of("Взлом робота-пылесоса", "step_3_btn"));
+        }
+
+        if (getCallbackQueryButtonKey().equals("step_1_btn")) {
+            addUserGlory(30);
+            sendTextMessageAsync(STEP_4_TEXT,
+                    Map.of( "Отправить пылесос за едой! + 30 славы", "step_4_btn",
+                            "Покататься на роботе пылесосе! + 30 славы", "step_4_btn",
+                            "Убежать от робота пылесоса! + 30 славы", "step_4_btn"));
         }
     }
 
@@ -43,3 +55,20 @@ public class MyFirstTelegramBot extends MultiSessionTelegramBot {
         telegramBotsApi.registerBot(new MyFirstTelegramBot());
     }
 }
+
+//        if (getMessageText().equals("/bye")) {
+//sendTextMessageAsync("Asta la vista, baby!");
+//        }
+//
+//                if (getMessageText().equals("/start")) {
+//sendTextMessageAsync("Ваше любимое животное?",
+//                     Map.of("Кот", "Cat", "Собака", "Dog"));
+//        }
+//
+//        if (getCallbackQueryButtonKey().equals("Cat")) {
+//sendPhotoMessageAsync("step_4_pic");
+//        }
+//
+//                if (getCallbackQueryButtonKey().equals("Dog")) {
+//sendPhotoMessageAsync("step_6_pic");
+//        }
